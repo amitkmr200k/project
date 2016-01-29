@@ -1,7 +1,6 @@
 <?php
 require("connection.php");
 require("validation_function.php");
-//require("connection.php");
 //if the form is submitted
 if(isset($_POST['submit']))
 {
@@ -9,26 +8,24 @@ if(isset($_POST['submit']))
 //uploading image file to the server and validating it.	
 	if ($_FILES['image']['name']) 
 	{
-    	$img_var = basename($_FILES['image']['name']);
-    	$image_type = pathinfo($img_var, PATHINFO_EXTENSION);
-    	if($image_type!="jpg" && $image_type!="jpeg"&& $image_type!="png"&& $image_type!="gif")
-    	{
-    		$error['image']="Invalid <b>image</b> type";
-    	}
-    		else
-    		{
-    			move_uploaded_file($_FILES['image']['tmp_name'], "/var/www/html/project/new/img/$img_var");	
-    		}
-    } 	
-     	else
-    	{
-	    	$query="SELECT image from user where id='{$_SESSION[id]}'";
-	    	$result=mysqli_query($connection,$query);
-	    	$row=mysqli_fetch_assoc($result);
-	    	$img_var=$row['image'];
-	    }   		
-    
-      	
+		$img_var = basename($_FILES['image']['name']);
+		$image_type = pathinfo($img_var, PATHINFO_EXTENSION);
+		if($image_type!="jpg" && $image_type!="jpeg"&& $image_type!="png"&& $image_type!="gif")
+		{
+			$error['image']="Invalid <b>image</b> type";
+		}
+		else
+		{
+			move_uploaded_file($_FILES['image']['tmp_name'], "/var/www/html/project/new/img/$img_var");	
+		}
+	} 	
+	else
+	{
+		$query="SELECT image from user where id='{$_SESSION[id]}'";
+		$result=mysqli_query($connection,$query);
+		$row=mysqli_fetch_assoc($result);
+		$img_var=$row['image'];
+	}   		
 //validating first name
 	if(!value_present($_POST['first_name']))
 	{
@@ -56,8 +53,7 @@ if(isset($_POST['submit']))
 	else if(!preg_match("/^[a-zA-Z0-9_]*$/", $_POST['user_name']))
 	{	
 		$error['user_name']="Only charatcers,numbers and underscore(_) allowed in <b>user name</b>";
-	}
-	
+	}	
 //validating email id
 	if(!value_present($_POST['email_id']))
 	{
@@ -66,8 +62,7 @@ if(isset($_POST['submit']))
 	else if (!filter_var($_POST['email_id'], FILTER_VALIDATE_EMAIL)) 
 	{
 		$error['email_id'] = "Please enter a valid <b>email</b>"; 
-	}	
-	
+	}		
 //validating age
 	if(!value_present($_POST['age']))
 	{
@@ -208,9 +203,7 @@ if(isset($_POST['submit']))
 	{	
 		$error['permanent_fax_no']="Only digits(10) allowed in <b>Fax Number(permanent)</b>";
 	}
-
-	
-	//if no error found go to insert_data file and insert the data
+//if no error found go to insert_data file and insert the data
 	if(empty($error))
 	{
 		$query="UPDATE user SET ";
@@ -240,7 +233,7 @@ if(isset($_POST['submit']))
 		$query.="comment='{$_POST["comment"]}', ";
 		$query.="image='{$img_var}'";
 		$query.=" WHERE id='{$_SESSION[id]}' ";
-				//sending the query
+//sending the query
 		$result=mysqli_query($connection,$query);
 // checks for query error
 		if(!$result)

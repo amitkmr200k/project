@@ -1,10 +1,9 @@
 <?php
-require("header1.html");
+require("header.php");
 require("connection.php");
 require("fetch_email_user_name.php");
 ?>
 <?php
-
 if(isset($_POST['submit']))
 {
 	$error;
@@ -24,22 +23,20 @@ if(isset($_POST['submit']))
 			$error= "Email ID not in database";
 		}
 	}
-if(empty($error))
-{
-echo "<center>Password has been sent, please check your inbox </center>";	
+	if(empty($error))
+	{
+		echo "<center>Password has been sent, please check your inbox </center>";	
+	}
 }
-}
-
 ?>
 <center>
-
-<div class="jumbotron">
-<font color=red><?php echo $error;?></font>
-<br/><br/>
-<form action="forgot.php" method="POST">
-Enter your Email ID : <input type="text" value="" name="email_id">
-<input type="submit" value="Submit" name="submit"> 
-</form>
-</div>
+	<div class="jumbotron">
+		<font color=red><?php echo $error;?></font>
+		<br/><br/>
+		<form action="forgot.php" method="POST">
+			Enter your Email ID : <input type="text" value="" name="email_id">
+			<input type="submit" value="Submit" name="submit"> 
+		</form>
+	</div>
 </center>
 <?php require("footer.html");?>
